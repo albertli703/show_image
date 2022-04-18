@@ -1,0 +1,26 @@
+import os
+from PIL import Image
+
+def resize_img(img_in):
+    long_size = 500
+    img = Image.open(img_in)
+    if img.size[0] > img.size[1]:
+        pct = (long_size/float(img.size[0]))
+        short_side = int((float(img.size[1])*float(pct)))
+        img = img.resize((long_size,short_side), Image.ANTIALIAS)
+    else:
+        pct = (long_size/float(img.size[1]))
+        short_side = int((float(img.size[0])*float(pct)))
+        img = img.resize((short_side,long_size), Image.ANTIALIAS)
+    return(img)
+
+for dirname, dirnames, filenames in sorted(os.walk('.')):
+    if dirname[-2:] == 'NB':
+        print('\n======================== ' + dirname[2:12] + ' ========================\n')
+        for filename in filenames:
+            try:
+                display(resize_img(os.path.join(dirname, filename)))
+#               print(os.path.join(dirname, filename + '\n'))
+                print(filename + '\n')
+            except:
+                pass
